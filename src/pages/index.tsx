@@ -1,11 +1,12 @@
-import styles from "../styles/Home.module.scss";
 import Head from "next/head";
+
+import styles from "../styles/Home.module.scss";
 
 export default function Home() {
   return (
     <>
       <Head>
-        <title>u.news</title>
+        <title>Início | u.news</title>
       </Head>
 
       <div>
