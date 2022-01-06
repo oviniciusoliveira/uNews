@@ -5,6 +5,7 @@ export function Header() {
   return (
     <header className={styles.headerContainer}>
       <div className={styles.headerContent}>
+        {/* TODO: Change img to next image element */}
         <img src="/images/logo.svg" alt="u.news" />
         <nav>
           <a className={styles.active}>Home</a>
