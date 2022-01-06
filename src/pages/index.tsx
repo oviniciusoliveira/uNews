@@ -7,9 +7,7 @@ export default function Home() {
         <title>Início | u.news</title>
       </Head>
 
-      <div>
-        <h1>Hello Next</h1>
-      </div>
+      <h1>Hello Next</h1>
     </>
   );
 }
