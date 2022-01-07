@@ -11,6 +11,7 @@
   "dependencies": {
     "@types/node": "^17.0.8",
     "@types/react": "^17.0.38",
+    "faunadb": "^4.4.1",
     "next": "12.0.7",
     "next-auth": "^4.0.6",
     "react": "17.0.2",
