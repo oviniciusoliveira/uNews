@@ -2,6 +2,10 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { Readable } from "stream";
 import Stripe from "stripe";
 import { stripe } from "../../services/stripe";
+import {
+  saveSubscription,
+  updateSubscription,
+} from "./_lib/manageSubscription";
 
 async function buffer(readable: Readable) {
   let chunks = "";
@@ -32,7 +36,12 @@ export const config = {
   },
 };
 
-const relevantEvents = new Set(["checkout.session.completed"]);
+const relevantEvents = new Set([
+  "checkout.session.completed",
+  "customer.subscription.created",
+  "customer.subscription.updated",
+  "customer.subscription.deleted",
+]);
 
 export default async function (req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== "POST") {
@@ -63,6 +72,43 @@ export default async function (req: NextApiRequest, res: NextApiResponse) {
     res.status(200).json({ received: true });
     return;
   }
+
+  async function saveCustomerSubsbcription(subscription: Stripe.Subscription) {
+    try {
+      await saveSubscription(subscription.id, subscription.customer.toString());
+    } catch (err) {
+      console.error(`[saveCustomerSubsbcription]: ${err}`);
+    }
+  }
+
+  async function updateCustomerSubscription(subscription: Stripe.Subscription) {
+    try {
+      await updateSubscription(
+        subscription.id,
+        subscription.customer.toString()
+      );
+    } catch (err) {
+      console.error(`[updateCustomerSubscription]: ${err}`);
+    }
+  }
+
+  const eventsHelper: {
+    [key: string]: (event: Stripe.Event.Data.Object) => Promise<void>;
+  } = {
+    "customer.subscription.created": saveCustomerSubsbcription,
+    "customer.subscription.updated": updateCustomerSubscription,
+    "customer.subscription.deleted": updateCustomerSubscription,
+  };
+
+  const eventHandler = eventsHelper[event.type] ?? null;
+
+  if (!eventHandler) {
+    return res
+      .status(200)
+      .json({ error: `No handler for event ${event.type}` });
+  }
+
+  await eventHandler(event.data.object);
 
   res.status(200).json({ received: true });
 }
