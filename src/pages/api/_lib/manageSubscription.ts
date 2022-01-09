@@ -44,7 +44,7 @@ export async function updateSubscription(
   subscriptionId: string,
   customerId: string
 ) {
-  const subExists = subscriptionExistsInFauna(subscriptionId);
+  const subExists = await subscriptionExistsInFauna(subscriptionId);
   if (!subExists) return;
 
   const userRef = await faunaClient.query(
