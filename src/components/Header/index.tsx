@@ -8,8 +8,10 @@ export function Header() {
         {/* TODO: Change img to next image element */}
         <img src="/images/logo.svg" alt="u.news" />
         <nav>
-          <a className={styles.active}>Home</a>
-          <a>Posts</a>
+          <a href="#" className={styles.active}>
+            Home
+          </a>
+          <a href="#">Posts</a>
         </nav>
 
         <SignInButton />

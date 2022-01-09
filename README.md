@@ -5,3 +5,6 @@ Formas de se obter dados
 - API Routes
 - Server-side
 - Static Site Generation
+
+Todo:
+- [ ] Add google authentication
