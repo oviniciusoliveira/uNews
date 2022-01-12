@@ -1,10 +1,8 @@
-import { useRouter } from "next/router";
 import { ActiveLink } from "../ActiveLink";
 import { SignInButton } from "../SignInButton";
 import styles from "./styles.module.scss";
 
 export function Header() {
-  const { pathname } = useRouter();
   return (
     <header className={styles.headerContainer}>
       <div className={styles.headerContent}>
