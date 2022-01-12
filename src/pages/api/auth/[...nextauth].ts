@@ -34,8 +34,40 @@ export default NextAuth({
         );
         return true;
       } catch (error) {
-        console.log(error);
+        console.error(`[signIn error]: ${error.name} - ${error.message}`);
         return false;
+      }
+    },
+    async session({ session }) {
+      try {
+        const userActiveSubscription = await faunaClient.query(
+          q.Let(
+            {
+              user: q.Select(
+                "ref",
+                q.Get(
+                  q.Match(
+                    q.Index("user_by_email"),
+                    q.Casefold(session.user.email)
+                  )
+                )
+              ),
+            },
+            q.Get(
+              q.Intersection([
+                q.Match(q.Index("subscription_by_user_ref"), q.Var("user")),
+                q.Match(q.Index("subscription_by_status"), "active"),
+              ])
+            )
+          )
+        );
+
+        return { ...session, activeSubscription: userActiveSubscription };
+      } catch {
+        return {
+          ...session,
+          activeSubscription: null,
+        };
       }
     },
   },

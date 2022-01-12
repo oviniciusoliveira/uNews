@@ -45,8 +45,13 @@ export const getServerSideProps: GetServerSideProps = async ({
   const session = await getSession({ req });
   const { slug } = params;
 
-  /* TODO: Handle if session does not exist */
-  if (!session) {
+  if (!session.activeSubscription) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
   }
 
   const prismic = PrismicClient(req);
