@@ -30,7 +30,7 @@ export function SubscribeButton() {
       const stripe = await getStripeJs();
       await stripe.redirectToCheckout({ sessionId });
     } catch (err) {
-      alert(err.message);
+      console.error(err.message);
     }
   }
 

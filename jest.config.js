@@ -4,6 +4,8 @@ module.exports = {
     "src/**/*.{js,jsx,ts,tsx}",
     "!**/*.d.ts",
     "!**/node_modules/**",
+    "!**/pages/_app.{js,jsx,ts,tsx}",
+    "!**/pages/_document.{js,jsx,ts,tsx}",
   ],
   moduleNameMapper: {
     "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
