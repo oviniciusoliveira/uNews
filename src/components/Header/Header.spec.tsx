@@ -11,20 +11,22 @@ jest.mock("next/router", () => {
   };
 });
 
-jest.mock('next-auth/react', () => {
-    return {
-        useSession() {
-            return {
-                data: null,
-                status: 'unauthenticated'
-            }
-        }
-    }
-})
+jest.mock("next-auth/react", () => {
+  return {
+    useSession() {
+      return {
+        data: null,
+        status: "unauthenticated",
+      };
+    },
+  };
+});
 
 describe("<Header />", () => {
   it("should renders correctly", () => {
-   render(<Header />);
+    render(<Header />);
+
+    screen.logTestingPlaygroundURL();
 
     expect(screen.getByText("Home")).toBeInTheDocument();
     expect(screen.getByText("Posts")).toBeInTheDocument();
