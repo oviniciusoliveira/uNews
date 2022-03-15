@@ -1,7 +1,7 @@
 // jest.config.js
 module.exports = {
   collectCoverageFrom: [
-    "**/*.{js,jsx,ts,tsx}",
+    "src/**/*.{js,jsx,ts,tsx}",
     "!**/*.d.ts",
     "!**/node_modules/**",
   ],
